@@ -706,42 +706,42 @@ const Reports = () => {
                             URL.revokeObjectURL(url);
                           } else {
                             // Fallback: generate PDF on frontend with table
-                            import('jspdf').then(async ({ jsPDF }) => {
-                              const doc = new jsPDF();
-                              doc.setFontSize(16);
-                              doc.text(report.title, 10, 20);
-                              doc.setFontSize(12);
-                              doc.text(`Generated: ${new Date(report.generatedAt || report.generatedDate).toLocaleString()}`, 10, 30);
-                              doc.text(`Type: ${report.type || report.category || ''}`, 10, 40);
-                              let y = 50;
-                              // Table rendering
-                              const data = report.content || report.data || report;
-                              if (Array.isArray(data) && data.length > 0) {
-                                const columns = Object.keys(data[0]);
-                                // Header
-                                columns.forEach((col, i) => {
-                                  doc.text(col, 10 + i * 40, y);
-                                });
-                                y += 8;
-                                // Rows
-                                data.forEach((row) => {
-                                  columns.forEach((col, i) => {
-                                    let val = row[col] !== undefined ? row[col].toString() : '';
-                                    doc.text(val, 10 + i * 40, y);
-                                  });
-                                  y += 8;
-                                });
-                              } else if (typeof data === 'object' && data !== null) {
-                                Object.entries(data).forEach(([key, value], i) => {
-                                  doc.text(key, 10, y);
-                                  doc.text(typeof value === 'object' ? JSON.stringify(value) : value?.toString(), 60, y);
-                                  y += 8;
-                                });
-                              } else {
-                                doc.text(data ? data.toString() : 'No data', 10, y);
-                              }
-                              doc.save(`${report.title.replace(/\s+/g, '_')}.pdf`);
-                            });
+                            // import('jspdf').then(async ({ jsPDF }) => {
+                            //   const doc = new jsPDF();
+                            //   doc.setFontSize(16);
+                            //   doc.text(report.title, 10, 20);
+                            //   doc.setFontSize(12);
+                            //   doc.text(`Generated: ${new Date(report.generatedAt || report.generatedDate).toLocaleString()}`, 10, 30);
+                            //   doc.text(`Type: ${report.type || report.category || ''}`, 10, 40);
+                            //   let y = 50;
+                            //   // Table rendering
+                            //   const data = report.content || report.data || report;
+                            //   if (Array.isArray(data) && data.length > 0) {
+                            //     const columns = Object.keys(data[0]);
+                            //     // Header
+                            //     columns.forEach((col, i) => {
+                            //       doc.text(col, 10 + i * 40, y);
+                            //     });
+                            //     y += 8;
+                            //     // Rows
+                            //     data.forEach((row) => {
+                            //       columns.forEach((col, i) => {
+                            //         let val = row[col] !== undefined ? row[col].toString() : '';
+                            //         doc.text(val, 10 + i * 40, y);
+                            //       });
+                            //       y += 8;
+                            //     });
+                            //   } else if (typeof data === 'object' && data !== null) {
+                            //     Object.entries(data).forEach(([key, value], i) => {
+                            //       doc.text(key, 10, y);
+                            //       doc.text(typeof value === 'object' ? JSON.stringify(value) : value?.toString(), 60, y);
+                            //       y += 8;
+                            //     });
+                            //   } else {
+                            //     doc.text(data ? data.toString() : 'No data', 10, y);
+                            //   }
+                            //   doc.save(`${report.title.replace(/\s+/g, '_')}.pdf`);
+                            // });
                           }
                         } catch (err) {
                           alert('Failed to export report');
