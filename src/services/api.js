@@ -11,7 +11,7 @@ import axios from 'axios';
 
 // Create axios instance with base configuration
 const api = axios.create({
-  baseURL: 'https://hm-sbackend.vercel.app/',
+  baseURL: import.meta.env.VITE_BACKEND_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
